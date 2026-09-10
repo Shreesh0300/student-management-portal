@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import Welcome from "./components/Welcome";
-import Dashbord from "./components/Dashboard";
+import Dashboard from "./components/Dashboard";
 import './App.css';
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       
       <Navbar />
       <Welcome/>
-      <Dashbord/>
+      <Dashboard/>
     </div>
   
 

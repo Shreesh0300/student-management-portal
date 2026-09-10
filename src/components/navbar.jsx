@@ -1,9 +1,9 @@
 function Navbar() {
   return (
     <nav>
-        <h2> student task portal</h2>
-        <div classNmae="nav-links">
-            <a href="#">dashbord</a>
+        <h2> Student Task Portal</h2>
+        <div className="nav-links">
+            <a href="#">Dashboard</a>
             <a href="#">Tasks</a>
         </div>
         </nav>

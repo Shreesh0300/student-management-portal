@@ -13,16 +13,18 @@ nav {
 
 nav h2 {
     margin: 0;
+    justify-content: space-between;
     font-size: 18px;
 }
 
 .nav-links {
     display: flex;
+    justify-content: space-between;
     gap: 25px;
 }
 
-.nav-links span {
-    cursor: pointer;
+.nav-links a {
+    margin-left: 20px;
 }
 
 
@@ -62,7 +64,8 @@ main {
     border: 1px solid #ccc;
     border-radius: 6px;
 
-    width: 150px;flex-direction: row;
+    width: 150px;
+    flex-direction: row;
     padding: 15px;
 }
 
@@ -79,7 +82,7 @@ main {
 
 /* Recent Tasks */
 
-main > h2 {
+main>h2 {
     font-size: 20px;
     margin-bottom: 15px;
 }
@@ -89,7 +92,7 @@ main > h2 {
 
 .tasks-container {
     display: flex;
-    flex-direction:  row;
+    flex-direction: row;
     gap: 15px;
 }
 
