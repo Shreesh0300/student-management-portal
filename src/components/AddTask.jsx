@@ -20,22 +20,23 @@ function AddTask(props)
         <div>
             <h2>Add Task</h2>
             <form onSubmit={handleSubmit}>
-            <label> Add Title </label>
-            <input type="text"
-            value={title}
-            onChange={(e)=> SetTitle(e.target.value)}
+                <div>
+                    <label> Add Title </label>
+                    <input type="text"
+                    value={title}
+                    onChange={(e)=> SetTitle(e.target.value)}
+                    />
+                </div>
 
-            />
+                <div>
+                    <label> Add Description </label>
+                    <input type="text"
+                    value={description}
+                    onChange={(e)=> SetDescription(e.target.value)}
+                    />
+                </div>
 
-            <br></br>
-            
-            <label> Add Description </label>
-            <input type="text"
-            value={description}
-            onChange={(e)=> SetDescription(e.target.value)}
-            />
-
-            <button type = "submit">Add Task</button>
+                <button type="submit">Add Task</button>
             </form>
             
 
