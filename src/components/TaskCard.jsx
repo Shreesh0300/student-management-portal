@@ -8,8 +8,8 @@ function TaskCard({ title, description, status, onToggle, onDelete, id }) {
       <p>{status}</p>
       <button onClick={onToggle}>Change Status</button>
       <button onClick={onDelete}>Delete task</button>
-      <Link to = {`/tasks/${id}`}>
-        View Detials
+      <Link to={`/tasks/${id}`}>
+        View Details
       </Link>
     </article>
   );

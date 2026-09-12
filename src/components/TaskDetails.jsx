@@ -1,10 +1,16 @@
 import {useParams, useSearchParams } from "react-router-dom";
-function TaskDetails() {
+function TaskDetails(props) {
     const{id}=useParams();
+    const tasks=props.tasks.find((tasks) => tasks.id===Number(id));
+    if(!tasks){
+         return <div>Task Not Found!</div>
+    }
     return (
-        <div>
+        <div className="Dashboard">
             <h1>Task Details</h1>
-            <p>This page will show details of all our tasks</p>
+            <h2>{tasks.title}</h2>
+            <p>{tasks.description}</p>
+            <p> Status:{tasks.status}</p>
             <p> Task ID:{id}</p>
         </div>
     );

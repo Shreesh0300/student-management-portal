@@ -5,17 +5,19 @@ import AddTask from "./AddTask";
 
 
 function Dashboard(props) {
-    
 
-    function toggleTask(id){
+
+    function toggleTask(id) {
         props.setTasks(
             props.tasks.map((task) => {
-                if(task.id === id){
-                    return {...task, 
+                if (task.id === id) {
+                    return {
+                        ...task,
                         status: task.status === "Completed" ? "Pending" : "Completed"
                     };
                 }
-                return task;            })
+                return task;
+            })
         );
     }
 
@@ -33,25 +35,25 @@ function Dashboard(props) {
             <header className="dashboard-header"></header>
 
             <div className="stats-grid">
-                <StatCard title = {"total tasks"}  value ={"10"}/>
-                <StatCard title = {"completed tasks"} value ={"7"}/>
-                <StatCard title = {"pending tasks"} value ={"3"}/>
+                <StatCard title={"total tasks"} value={"10"} />
+                <StatCard title={"completed tasks"} value={"7"} />
+                <StatCard title={"pending tasks"} value={"3"} />
             </div>
 
             <section className="task-section">
-            <AddTask onAddTask={handleAddTask}/>
-            
+                <AddTask onAddTask={handleAddTask} />
+
 
                 <h2>Recent Tasks</h2>
                 <div className="task-list">
                     {props.tasks.map(tasks => (
                         <TaskCard key={tasks.id}
-                        id = {tasks.id}
-                         title={tasks.title} 
-                         description={tasks.description} status={tasks.status} 
-                        onToggle={()=>toggleTask(tasks.id)}
-                        onDelete={()=>deleteTask(tasks.id)}/>
-                        
+                            id={tasks.id}
+                            title={tasks.title}
+                            description={tasks.description} status={tasks.status}
+                            onToggle={() => toggleTask(tasks.id)}
+                            onDelete={() => deleteTask(tasks.id)} />
+
                     ))}
                 </div>
             </section>
