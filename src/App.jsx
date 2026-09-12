@@ -5,16 +5,20 @@ import './App.css';
 import {Routes,Route} from "react-router-dom";
 import Tasks from "./components/Tasks";
 import TaskDetails from "./components/TaskDetails";
-import { useState  } from "react";
+import { useState ,useEffect} from "react";
 function App() {
 
   const[tasks, setTasks] = useState([
-          { id : 1, title :"Learn DSA" , description :"Basics of DSA" ,status :"Pending"},
-          { id : 2, title :"Learn react" , description :"Learn React fundamentals", status :"Completed"},
-          { id : 3, title :"Build a project" , description :"Build a simple React project" ,status :"Pending"},
-          { id : 4, title :"Learn Django" , description :"Build a simple Django project" ,status :"Pending"}
+          
       ]);
-  
+  useEffect(()=>{
+
+    fetch("http://localhost:5000/api/tasks")
+    .then((response)=>response.json())
+    .then((data)=>setTasks(data));
+
+  },[]);
+
   return (
     <div>
       
@@ -30,6 +34,6 @@ function App() {
   
 
   );
-}
 
+}
 export default App;
