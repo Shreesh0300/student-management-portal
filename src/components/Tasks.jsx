@@ -4,7 +4,7 @@ function Tasks(props) {
     function toggleTask(id) {
         props.setTasks(
             props.tasks.map((task) => {
-                if (task.id === id) {
+                if (task._id === id) {
                     return {
                         ...task,
                         status: task.status === "Completed" ? "Pending" : "Completed"
@@ -16,7 +16,7 @@ function Tasks(props) {
     }
 
     function deleteTask(id) {
-        props.setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+        props.setTasks(prevTasks => prevTasks.filter(task => task._id !== id));
     }
 
     return (
@@ -26,13 +26,13 @@ function Tasks(props) {
             <div className="task-list">
                 {props.tasks.map(task => (
                     <TaskCard 
-                        key={task.id}
-                        id={task.id}
+                        key={task._id}
+                        id={task._id}
                         title={task.title}
                         description={task.description} 
                         status={task.status}
-                        onToggle={() => toggleTask(task.id)}
-                        onDelete={() => deleteTask(task.id)} 
+                        onToggle={() => toggleTask(task._id)}
+                        onDelete={() => deleteTask(task._id)} 
                     />
                 ))}
             </div>

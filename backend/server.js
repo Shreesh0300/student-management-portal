@@ -1,26 +1,100 @@
-const express = require("express")
+require("dotenv").config();
+
+// bring express in Node.js
+const express = require("express");
+
+const mongoose=require("mongoose");
+
+// installing cors middleware
 const cors = require("cors");
-const app =express();
 
+// create express app using what we imported
+const app = express();
+
+const Task = require("./models/Task");
+
+// use cors middleware to handle requests
 app.use(cors());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGODB_URI)
+.then(()=>{
+    console.log("MongoDb Connection Sucessfull!");
+}).catch((error)=>{
+    console.log("MongoDb Connection Failed:",error.message);
+})
 
 
-const tasks=[
-          { id : 1, title :"Learn DSA" , description :"Basics of DSA" ,status :"Pending"},
-          { id : 2, title :"Learn react" , description :"Learn React fundamentals", status :"Completed"},
-          
-      ];
 
-
-      app.get("/api/tasks" ,(req,res)=>{
-        res.json(tasks)
-    });
-  
-
-app.get("/",(req,res)=> {
-    res.send("Backend is Working!")
+app.get("/api/tasks", async (req, res) =>{
+    try{
+        const tasks = await Task.find();
+        res.json(tasks);
+    } catch(error){
+        res.status(500).json({message:"Failed to fetch Tasks!"});
+    }
+    
 });
 
-app.listen(5000,()=>{
-    console.log("Server is running on port 5000");
+
+app.get("/api/tasks/:id",async (req, res)=>{
+    try{
+
+    
+    
+    const task = await Task.findById(req.params.id);
+    if(!task){
+        return res.status(404).json({message : "Task not found!"});
+    }
+    res.json(task);
+    }catch(error){
+        res.status(500).json({message:"Failed to fetch tasks!"});
+    }
+})
+
+app.put("/api/tasks/:id", async (req, res)=>{
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            req.params.id,
+            { status: req.body.status },
+            { new: true }
+        );
+        if(!updatedTask){
+            return res.status(404).json({message:"Task Not Found"})
+        }
+        res.json(updatedTask);
+    } catch (error) {
+        res.status(500).json({message: "Failed to update task!"});
+    }
+})
+
+app.delete("/api/tasks/:id", async (req, res) => {
+    try {
+        const deletedTask = await Task.findByIdAndDelete(req.params.id);
+        if(!deletedTask){
+            return res.status(404).json({message: "Task Not Found"});
+        }
+        res.json(deletedTask);
+    } catch (error) {
+        res.status(500).json({message: "Failed to delete task!"});
+    }
+})
+
+app.post("/api/tasks", async(req, res)=>{
+    try {
+        const newTask = await Task.create(req.body);
+        res.status(201).json(newTask);
+    } catch(error) {
+         res.status(500).json({message:"Failed to create task!"});
+    }
+})
+
+// API Route (Testing Backend)
+app.get("/", (req, res) => {
+    res.send("Backend is Working!!")
+});
+
+// start the server and listen to port 5000
+app.listen(5000, () => {
+    console.log("Server is Running on port 5000");
 });

@@ -1,62 +1,80 @@
 import StatCard from "./StatCard";
 import TaskCard from "./TaskCard";
-import { useState } from "react";
 import AddTask from "./AddTask";
-
 
 function Dashboard(props) {
 
+    async function toggleTask(id){
+        const task = props.tasks.find((task)=>task._id === id);
+        const newStatus = task.status ==="Completed"
+         ? "Pending" : "Completed";
+        
+        const response = await fetch(`http://localhost:5000/api/tasks/${id}`
+            , {
+                method: "PUT",
+                headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status:newStatus
+            })
+        });
 
-    function toggleTask(id) {
+        const updatedTask = await response.json();
+
         props.setTasks(
             props.tasks.map((task) => {
-                if (task.id === id) {
-                    return {
-                        ...task,
-                        status: task.status === "Completed" ? "Pending" : "Completed"
-                    };
+                if(task._id === id){
+                    return updatedTask;
                 }
                 return task;
             })
         );
     }
 
-    function handleAddTask(newTask) {
+    function addTask(newTask){
         props.setTasks([...props.tasks, newTask]);
     }
 
+    async function deleteTask(id){
+        const response = await fetch(`http://localhost:5000/api/tasks/${id}`, {
+                method: "DELETE"
+            });
 
-    function deleteTask(id) {
-        props.setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+            const deletedTask = await response.json();
+        props.setTasks(
+            props.tasks.filter((task)=>task._id !== deletedTask._id)
+        );
     }
 
     return (
-        <main className="Dashboard">
-            <header className="dashboard-header"></header>
-
-            <div className="stats-grid">
-                <StatCard title={"total tasks"} value={"10"} />
-                <StatCard title={"completed tasks"} value={"7"} />
-                <StatCard title={"pending tasks"} value={"3"} />
+        <main>
+        
+            <div className="stats-container">
+                <StatCard title="Total Tasks" value="10"/>
+                <StatCard title="Completed" value="6"/>
+                <StatCard title="Pending" value="4"/>
+                
             </div>
 
-            <section className="task-section">
-                <AddTask onAddTask={handleAddTask} />
+            <AddTask  onAddTask={addTask}/>
 
+            <h2>Recent Tasks</h2>
 
-                <h2>Recent Tasks</h2>
-                <div className="task-list">
-                    {props.tasks.map(tasks => (
-                        <TaskCard key={tasks.id}
-                            id={tasks.id}
-                            title={tasks.title}
-                            description={tasks.description} status={tasks.status}
-                            onToggle={() => toggleTask(tasks.id)}
-                            onDelete={() => deleteTask(tasks.id)} />
+            <div className="tasks-container">
+                {props.tasks.map((task)=>(
+                    <TaskCard 
+                        key={task._id} 
+                        id ={task._id}
+                        title={task.title} 
+                        description={task.description} 
+                        status={task.status}
+                        onToggle={()=>toggleTask(task._id)} 
+                        onDelete={()=>deleteTask(task._id)}
+                    />
+                ))};
+            </div>
 
-                    ))}
-                </div>
-            </section>
         </main>
     );
 }
