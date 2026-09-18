@@ -6,6 +6,8 @@ import {Routes,Route} from "react-router-dom";
 import Tasks from "./components/Tasks";
 import TaskDetails from "./components/TaskDetails";
 import { useState ,useEffect} from "react";
+import Login from "./components/Login";
+import Register from "./components/Register";
 function App() {
 
   const[tasks, setTasks] = useState([
@@ -28,6 +30,8 @@ function App() {
           <Route path="/" element={<><Welcome/><Dashboard tasks={tasks} setTasks={setTasks}/></>}/>
           <Route path ="/tasks" element={<Tasks tasks={tasks} setTasks={setTasks} />}/>
           <Route path ="/tasks/:id" element={<TaskDetails tasks={tasks}/>}/>
+          <Route path ="/login" element={<Login/>}/>
+          <Route path="/register"element={<Register/>}/>
         </Route>
       </Routes>
     </div>
